@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">C346_SA</string>
+    <string name="tvBriefDescription">In this program you would be able to add and delete items from the item list
+        2 buttons leading to two different activities, you would able to filter based off the expire dates</string>
+    <string name="btnToGitHub">To GitHub</string>
+    <string name="btnToItemList">To Item List</string>
 </resources>
