@@ -4,4 +4,6 @@
         2 buttons leading to two different activities, you would able to filter based off the expire dates</string>
     <string name="btnToGitHub">To GitHub</string>
     <string name="btnToItemList">To Item List</string>
+    <string name="btnAdd">Add</string>
+    <string name="etEnterProduct">Enter Product Name</string>
 </resources>
