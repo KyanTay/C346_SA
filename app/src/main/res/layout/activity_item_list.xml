@@ -21,12 +21,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spnMonthPicker"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner" />
+                android:layout_weight="1"
+                android:entries="@array/spinnerMonths" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/etProductName"
@@ -35,6 +42,12 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="@string/etEnterProduct" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"></LinearLayout>
 
             <Button
                 android:id="@+id/btnAdd"
