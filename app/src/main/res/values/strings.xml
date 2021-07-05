@@ -5,6 +5,8 @@
     <string name="btnToGitHub">To GitHub</string>
     <string name="btnToItemList">To Item List</string>
     <string name="btnAdd">Add</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnUpdate">Update</string>
     <string name="etEnterProduct">Enter Product Name</string>
     <string-array name="spinnerMonths">
         <item>1 month</item>

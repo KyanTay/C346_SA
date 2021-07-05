@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -27,9 +28,13 @@ public class ItemList extends AppCompatActivity {
     ArrayList<String> itemExpireArray;
     EditText etProductName;
     Button btnAdd;
+    Button btnDelete;
+    Button btnUpdate;
     ListView lvItemExpire;
     Spinner monthPicker;
     ArrayAdapter adapterProductList;
+    DatePicker expiryDatePicker;
+    int xMonth = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,13 @@ public class ItemList extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
 
         btnAdd = findViewById(R.id.btnAdd);
+        btnDelete = findViewById(R.id.btnDelete);
+        btnUpdate = findViewById(R.id.btnUpdate);
         etProductName = findViewById(R.id.etProductName);
         lvItemExpire = findViewById(R.id.lvItemExpire);
         itemExpireArray = new ArrayList<String>();
         monthPicker = findViewById(R.id.spnMonthPicker);
+        expiryDatePicker = findViewById(R.id.datePicker);
 
 
         itemExpireArray.add("Expires 2021-8-2 Vegetables");
@@ -65,25 +73,63 @@ public class ItemList extends AppCompatActivity {
             }
         });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String productName = etProductName.getText().toString();
+                for(int i = 0; i < itemExpireArray.size(); i++){
+                    if(itemExpireArray.get(i).contains(productName)){
+                        itemExpireArray.remove(itemExpireArray.get(i));
+                        dateFilter();
+                    }
+                }
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String productName = etProductName.getText().toString();
+                for(int i = 0; i < itemExpireArray.size(); i++){
+                    //To find the product name
+                    if(itemExpireArray.get(i).contains(productName)){
+                        //To get the date of the product from splitting it by using substring
+                        String product = itemExpireArray.get(i).substring
+                                (itemExpireArray.get(i).indexOf(" ",10)+1, itemExpireArray.get(i).length());
+
+                        //To make use of the date picker
+                        String newExpiryYear = "Expires " + expiryDatePicker.getYear() + "-" +
+                                //To make the integer to string since adding + 1 would make it an integer
+                                //instead of a string which would make it a int.
+                                Integer.toString(expiryDatePicker.getMonth() + 1) + "-" +
+                        expiryDatePicker.getDayOfMonth() + " ";
+                        // i for the position and to set the product name and values.
+                        itemExpireArray.set(i, newExpiryYear + product);
+                        dateFilter();
+                    }
+                }
+            }
+        });
+
         monthPicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(position){
                     case 0:
-                        dateFilter(1);
+                        xMonth = 1;
                         break;
                     case 1:
-                        dateFilter(3);
+                        xMonth = 3;
                         break;
                     case 2:
-                        dateFilter(6);
+                        xMonth = 6;
                         break;
                 }
+                dateFilter();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -113,20 +159,22 @@ public class ItemList extends AppCompatActivity {
         }
     }
 
-    public void dateFilter(int xMonth){
+    public void dateFilter(){
+        //To get current date of singapore since default is UTC
         Date _sortingDate = new Date(new Date().getTime()+28800000);
         ArrayList<String> filteredDateResult = new ArrayList<String>();
+        //value of one month
         double oneMonth = 2629746000f;
 
         for (int i = 0; i < itemExpireArray.size(); i++) {
             //Get ONLY the expiry date as YYYY/MM/DD Format
-            String productDate = itemExpireArray.get(i).substring(itemExpireArray.get(i).indexOf(" ")+1, itemExpireArray.get(i).indexOf(" ", 10)).replaceAll("-","/");
+            String productDate = itemExpireArray.get(i).substring(itemExpireArray.get(i).indexOf(" ")+1, itemExpireArray.get(i).indexOf(" ", 10));
 
             //This is to intialise the variable
             Date _productDate = null;
             //This is to try to catch any possible error when trying to parse a data.
             try {
-                _productDate = new SimpleDateFormat("yyyy/MM/dd").parse(productDate); //Convert the date in string to date dataType
+                _productDate = new SimpleDateFormat("yyyy-MM-dd").parse(productDate); //Convert the date in string to date dataType
             }
             //This is to catch the possible error.
             catch (Exception e) {
